@@ -57,7 +57,7 @@ class MouseChaser:
         if self.state == 1 and self.count == self.sampling_time:
             self.count = 0
             self.canvas.create_oval(self.mouse_x - 2, self.mouse_y - 2,  self.mouse_x + 2, self.mouse_y + 2)
-            self.textFile.write(f"{(self.mouse_x / self.image_size_magnification + self.xDiff) * self.meter_per_pixel}, {(self.original_image_height - (self.mouse_y / self.image_size_magnification - self.yDiff)) * self.meter_per_pixel}, 0\n")
+            self.textFile.write(f"{(self.mouse_x / self.image_size_magnification + self.xDiff) * self.meter_per_pixel} {(self.original_image_height - (self.mouse_y / self.image_size_magnification - self.yDiff)) * self.meter_per_pixel} 0\n")
         elif self.state == 2:
             self.state += 1
             self.textFile.close()
@@ -103,6 +103,7 @@ def main():
     y = float(input("原点から見た画像の左下のy座標を(単位はmで)入力してください: "))
     meter_per_pixel = float(input("1ピクセルあたりの実際の長さを(単位はmで)入力してください: "))
     sampling_time = float(input("点を取得する時間間隔(単位はms)を入力してください: "))
+    compromise_difference_to_goal = float(input("目標地点との誤差(単位はm)を入力してください: "))
 
     x /= meter_per_pixel
     y /= meter_per_pixel
@@ -118,7 +119,7 @@ def main():
         # 全行取得
         line = file.readlines()
         # 途中に挿入
-        line.insert(0, str(number_of_lines) + '\n\n')
+        line.insert(0, str(number_of_lines) + " " + str(compromise_difference_to_goal) + '\n\n')
         # ファイルデータ全削除
         file.truncate(0)
         # 先頭にストリームを移動
